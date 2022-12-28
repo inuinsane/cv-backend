@@ -55,5 +55,28 @@ export const createNewUser = async (req, res) => {
 
 // Get User Data by ID
 export const getUserById = async (req, res) => {
-  res.json(req.body);
+  const user = await User.findById(req.params.id);
+  user.password = undefined;
+  user.rememberToken = undefined;
+
+  if (!user)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
+
+  res.status(200).json(user);
+};
+
+// Update User Data by ID
+export const updateUserData = async (req, res) => {
+  await User.findOneAndUpdate(req.params.id, req.body);
+  const updatedData = await User.findById(req.params.id);
+  updatedData.password = undefined;
+  updatedData.rememberToken = undefined;
+
+  res.status(201).json({
+    status: "success",
+    message: "Data berhasil disimpan",
+    data: updatedData,
+  });
 };
