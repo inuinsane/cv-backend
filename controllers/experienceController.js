@@ -69,3 +69,19 @@ export const updateExperienceData = async (req, res) => {
     data: updated.experiences,
   });
 };
+
+// delete an experience data
+export const deleteExperienceData = async (req, res) => {
+  const data = await User.findOne({ "experiences._id": req.params.dataId });
+  if (!data)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
+  const deleted = await data.experiences.pull({ _id: req.params.dataId });
+  await data.save();
+  res.status(201).json({
+    status: "success",
+    message: `Data dengan id ${req.params.dataId} berhasil dihapus`,
+    data: deleted,
+  });
+};
