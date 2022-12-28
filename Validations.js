@@ -11,3 +11,14 @@ export const registerValidation = (data) => {
 
   return schema.validate(data);
 };
+
+// Experience Data validation
+export const experienceValidation = (data) => {
+  const schema = Joi.object({
+    companyName: Joi.string().min(5).max(128).required(),
+    positionName: Joi.string().min(4).max(128).required(),
+    start: Joi.date().required(),
+    end: Joi.date(),
+  });
+  return schema.validate(data);
+};

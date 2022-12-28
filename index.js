@@ -32,5 +32,7 @@ dbConnection.once("open", () => {
 // import router
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import exprerienceRoutes from "./routes/experienceRoutes.js";
 app.use("/api/users/", userRoutes);
 app.use("/api/auth/", authRoutes);
+app.use("/api/experience/", exprerienceRoutes);

@@ -32,6 +32,15 @@ const userSchema = Schema({
     max: 1024,
     default: "",
   },
+  socialMedia: [
+    {
+      website: String,
+      instagram: String,
+      facebook: String,
+      linkedin: String,
+      twitter: String,
+    },
+  ],
   password: {
     type: String,
     min: 6,
@@ -45,19 +54,64 @@ const userSchema = Schema({
     type: String,
     default: "",
   },
-  //   },
+
+  // experiences
   experiences: [
     {
       companyName: String,
       positionName: String,
-      startYear: Number,
-      endYear: {
-        type: Number,
-        defult: null,
+      start: {
+        type: Date,
+      },
+      end: {
+        type: Date,
+        default: null,
       },
       information: String,
     },
   ],
+
+  // educations
+  educations: [
+    {
+      schoolName: String,
+      startYear: Number,
+      endYear: {
+        type: Number,
+        default: null,
+      },
+      major: String,
+      information: String,
+    },
+  ],
+
+  // trainings
+  trinings: [
+    {
+      trainingName: String,
+      trainingVendor: String,
+      start: Date,
+      end: { type: Date, default: null },
+      information: String,
+      certificateNumber: String,
+      certificateLink: String,
+    },
+  ],
+
+  // skills and certifications
+  skills: [
+    {
+      skillName: String,
+      score: String,
+      certificateIssuer: String,
+      certificateNumber: String,
+      certificateLink: String,
+      issuedDate: Date,
+      expiredDate: { type: Date, default: null },
+    },
+  ],
+
+  //
 });
 
 export default mongoose.model("User", userSchema);
