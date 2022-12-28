@@ -7,6 +7,7 @@ import JWT from "jsonwebtoken";
 
 const router = express.Router();
 
+// Login
 router.post("/login", async (req, res) => {
   // check username and password
   const user = await User.findOne({ username: req.body.username });
@@ -34,6 +35,25 @@ router.post("/login", async (req, res) => {
     }
   );
   res.header("auth-token", token).send(token);
+});
+
+// Logout
+router.put("/logout", async (req, res) => {
+  const authHeader = req.headers["authorization"];
+  JWT.sign(authHeader, "", { expiresIn: 1 }, async (logout, err) => {
+    if (logout) {
+      const user = await User.findOneAndUpdate(
+        { rememberToken: authHeader },
+        { rememberToken: "" }
+      );
+      if (!user) {
+        res.status(404).send({ status: "error", message: "Logout gagal" });
+      }
+      res.send({ status: "success", message: "Logout berhasil" });
+    } else {
+      res.send({ status: "success", message: err });
+    }
+  });
 });
 
 export default router;
