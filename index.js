@@ -9,10 +9,10 @@ const db = process.env.DB;
 
 // Running the app
 const app = express();
-app.use(express.json());
 app.listen(port, () => {
   console.log(`Server is up and running on port: http://localhost:${port}`);
 });
+app.use(express.json());
 
 // Connect to DB
 mongoose.set("strictQuery", false);
@@ -28,3 +28,7 @@ dbConnection.on("err", (error) => {
 dbConnection.once("open", () => {
   console.log("Connected to database...");
 });
+
+// import router
+import userRoutes from "./routes/userRoutes.js";
+app.use("/api/users/", userRoutes);
