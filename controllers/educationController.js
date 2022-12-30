@@ -84,3 +84,20 @@ export const updateEducationData = async (req, res) => {
     data: updated.educations,
   });
 };
+
+// delete education data by ID
+export const deleteEducationData = async (req, res) => {
+  const dataId = req.params.dataId;
+  const selected = await User.findOne({ "educations._id": dataId });
+  if (!selected)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
+  const deleted = await selected.educations.pull({ _id: dataId });
+  await selected.save();
+  res.status(201).json({
+    status: "success",
+    message: `Data dengan id ${req.params.dataId} berhasil dihapus`,
+    data: deleted,
+  });
+};
