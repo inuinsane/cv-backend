@@ -22,3 +22,15 @@ export const experienceValidation = (data) => {
   });
   return schema.validate(data);
 };
+
+// Education Data validation
+export const educationValidation = (data) => {
+  const schema = Joi.object({
+    schoolName: Joi.string().min(5).max(128).required(),
+    startYear: Joi.number().required(),
+    endYear: Joi.number().allow(null).default(null),
+    major: Joi.string().max(128).allow("").default(""),
+    information: Joi.string().max(1024).allow("").default(""),
+  });
+  return schema.validate(data);
+};

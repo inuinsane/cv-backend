@@ -27,7 +27,7 @@ export const createNewExperience = async (req, res) => {
   res.status(201).json({
     status: "success",
     message: "Perubahan berhasil disimpan",
-    data: user,
+    data: user.experiences,
   });
 };
 
