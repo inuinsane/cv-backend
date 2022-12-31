@@ -12,7 +12,6 @@ export const createTrainingData = async (req, res) => {
 
   //   check user availability
   const user = await User.findById(userId);
-  res.send(user);
   if (!user)
     return res
       .status(404)
@@ -74,5 +73,23 @@ export const updateTrainingById = async (req, res) => {
     status: "success",
     message: "Perubahan berhasil disimpan",
     data: updated.trainings,
+  });
+};
+
+// Delete training data by data ID
+export const deleteTrainingById = async (req, res) => {
+  const dataId = req.params.dataId;
+  const data = await User.findOne({ "trainings._id": dataId });
+  if (!data)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
+  const deleted = await data.trainings.pull({ _id: dataId });
+  await data.save();
+
+  res.status(201).json({
+    status: "success",
+    message: `Data dengan id ${req.params.dataId} berhasil dihapus`,
+    data: deleted,
   });
 };

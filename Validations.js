@@ -45,6 +45,7 @@ export const trainingValidation = (data) => {
     certificateLink: Joi.string().max(128).allow(""),
     start: Joi.date().required(),
     end: Joi.date(),
+    information: Joi.string().allow(""),
   });
 
   return schema.validate(data);
