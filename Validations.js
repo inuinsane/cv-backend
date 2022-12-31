@@ -34,3 +34,18 @@ export const educationValidation = (data) => {
   });
   return schema.validate(data);
 };
+
+// Skill Data validation
+export const trainingValidation = (data) => {
+  const schema = Joi.object({
+    trainingName: Joi.string().min(5).max(128).required().allow(""),
+    trainingVendor: Joi.string().max(64).required().allow(""),
+    trainingLocation: Joi.string().max(128).required().allow(""),
+    certificateNumber: Joi.string().max(128).required().allow(""),
+    certificateLink: Joi.string().max(128).allow(""),
+    start: Joi.date().required(),
+    end: Joi.date(),
+  });
+
+  return schema.validate(data);
+};

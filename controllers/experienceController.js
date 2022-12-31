@@ -61,6 +61,10 @@ export const updateExperienceData = async (req, res) => {
       },
     }
   );
+  if (!selectedData)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
 
   const updated = await User.findById(selectedData._id);
   res.status(201).json({

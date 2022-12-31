@@ -86,15 +86,16 @@ const userSchema = Schema({
   ],
 
   // trainings
-  trinings: [
+  trainings: [
     {
-      trainingName: String,
-      trainingVendor: String,
-      start: Date,
+      trainingName: { type: String, required: true },
+      trainingVendor: { type: String, required: true },
+      trainingLocation: { type: String, default: "" },
+      start: { type: Date, required: true },
       end: { type: Date, default: null },
-      information: String,
-      certificateNumber: String,
-      certificateLink: String,
+      certificateNumber: { type: String, default: "" },
+      certificateLink: { type: String, default: "" },
+      information: { type: String, default: "" },
     },
   ],
 
