@@ -32,15 +32,14 @@ const userSchema = Schema({
     max: 1024,
     default: "",
   },
-  socialMedia: [
-    {
-      website: String,
-      instagram: String,
-      facebook: String,
-      linkedin: String,
-      twitter: String,
-    },
-  ],
+  socialMedia: {
+    website: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    facebook: { type: String, default: "" },
+    linkedIn: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+  },
+
   password: {
     type: String,
     min: 6,
