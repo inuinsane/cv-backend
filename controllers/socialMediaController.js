@@ -44,3 +44,32 @@ export const getSocialMediaData = async (req, res) => {
     data: user.socialMedia,
   });
 };
+
+// Delete data by user ID
+export const deleteSocialMedia = async (req, res) => {
+  const userId = req.params.userId;
+  const { website, instagram, linkedIn, facebook, twitter } = req.body;
+  const user = await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      "socialMedia.website": website,
+      "socialMedia.instagram": instagram,
+      "socialMedia.twitter": twitter,
+      "socialMedia.facebook": facebook,
+      "socialMedia.linkedIn": linkedIn,
+    }
+  );
+
+  //   check user availability
+  if (!user)
+    return res
+      .status(404)
+      .json({ status: "error", message: "Data tidak ditemukan" });
+
+  const newData = await User.findById(userId);
+  res.status(201).json({
+    status: "success",
+    message: "Data berhasil dihapus",
+    data: newData.socialMedia,
+  });
+};
