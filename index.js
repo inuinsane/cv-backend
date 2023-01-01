@@ -5,7 +5,7 @@ dotenv.config();
 
 // Appliation port
 const port = process.env.PORT || 5050;
-const db = process.env.DB;
+const db = process.env.DB.toString();
 
 // Running the app
 const app = express();
