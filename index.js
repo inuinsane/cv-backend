@@ -42,3 +42,5 @@ app.use("/api/experience/", exprerienceRoutes);
 app.use("/api/education/", educationRoutes);
 app.use("/api/training/", trainingRoutes);
 app.use("/api/sosmed/", socialMediaRoutes);
+
+export default app;
