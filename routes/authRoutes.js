@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 dotenv.config();
 import JWT from "jsonwebtoken";
+import e from "express";
 
 const router = express.Router();
 
@@ -28,31 +29,41 @@ router.post("/login", async (req, res) => {
 
   // create new token for user
   const token = JWT.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  await User.findByIdAndUpdate(
-    { _id: user._id },
-    {
-      rememberToken: token,
-    }
-  );
-  res.header("auth-token", token).send(token);
+  user.rememberToken = token;
+  await user.save();
+
+  res.header("auth-token", token).json({
+    status: "success",
+    message: "Login berhasil",
+    _id: user._id,
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    token: user.rememberToken,
+  });
 });
 
 // Logout
 router.put("/logout", async (req, res) => {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.headers.authorization;
+
   JWT.sign(authHeader, "", { expiresIn: 1 }, async (logout, err) => {
     if (logout) {
-      const user = await User.findOneAndUpdate(
-        { rememberToken: authHeader },
-        { rememberToken: "" }
-      );
-      if (!user) {
+      const user = await User.findOneAndUpdate({ rememberToken: authHeader });
+      if (user) {
+        user.rememberToken = "";
+        await user.save();
+        res.status(201).send({ status: "success", message: "Logout berhasil" });
+        // res.send(user);
+      } else {
+        // res.send("tidak ada user");
         res.status(404).send({ status: "error", message: "Logout gagal" });
       }
-      res.send({ status: "success", message: "Logout berhasil" });
-    } else {
-      res.send({ status: "success", message: err });
     }
+
+    // else {
+    //   res.send({ status: "success", message: err });
+    // }
   });
 });
 

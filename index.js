@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cors from "cors";
 dotenv.config();
 
 // Appliation port
@@ -12,6 +13,11 @@ const app = express();
 app.listen(port, () => {
   console.log(`Server is up and running on port: http://localhost:${port}`);
 });
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 // Connect to DB
